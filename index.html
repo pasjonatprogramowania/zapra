@@ -1,78 +1,88 @@
 <!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bieganie</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
+                <button class="share-button">↗</button>
+                <button class="menu-button">⋮</button>
+            </div>
+        </div>
 
-        body {
-            background-color: #000000;
-            color: white;
-        }
+        <div class="distance">2,52 km</div>
 
-        .container {
-            max-width: 100%;
-            padding: 20px;
-        }
+        <div class="stats-card">
+            <div class="stats-header">
+                <span class="stats-title">Szczegóły treningu</span>
+                <span class="stats-arrow">›</span>
+            </div>
 
-        .header {
-            display: flex;
-            align-items: center;
-            padding: 10px 0;
-            margin-bottom: 20px;
-        }
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-label">Czas treningu</div>
+                    <div class="stat-value blue-text" id="czas" data-original="921">15:21</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Średnie tempo</div>
+                    <div class="stat-value blue-text" id="tempo" data-original="364">06:04</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Średni puls</div>
+                    <div class="stat-value orange-text" id="puls" data-original="161">161</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Trening — kalorie</div>
+                    <div class="stat-value pink-text" id="kalorie" data-original="199">199</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Śr. tempo</div>
+                    <div class="stat-value green-text" id="sr-tempo" data-original="167">167</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Kroki</div>
+                    <div class="stat-value green-text" id="kroki" data-original="2568">2568</div>
+                </div>
+            </div>
+        </div>
 
-        .back-button {
-            color: white;
-            font-size: 24px;
-            background: none;
-            border: none;
-            margin-right: 15px;
-        }
+        <div class="tabs">
+            <a class="tab active" id="mapa-tab">Mapa</a>
+            <a class="tab">Zestawienie</a>
+        </div>
 
-        .title {
-            font-size: 24px;
-            flex-grow: 1;
-        }
+        <div class="map-container">
+            <!-- Placeholder for map -->
+        </div>
+    </div>
 
-        .actions {
-            display: flex;
-            gap: 20px;
-        }
+    <script>
+        const originalValues = {
+            czas: 921, // 15:21 w sekundach
+            tempo: 364, // 06:04 w sekundach
+            puls: 161,
+            kalorie: 199,
+            srTempo: 167,
+            kroki: 2568
+        };
 
-        .share-button, .menu-button {
-            color: white;
-            background: none;
-            border: none;
-            font-size: 20px;
-        }
+        document.getElementById('mapa-tab').addEventListener('click', function() {
+            // Losujemy współczynnik zmiany (0-10%)
+            const changeDirection = Math.random() < 0.5 ? -1 : 1;
+            const changePercent = Math.random() * 0.10; // 0-10%
+            const changeFactor = 1 + (changeDirection * changePercent);
 
-        .distance {
-            font-size: 48px;
-            font-weight: bold;
-            margin: 20px 0;
-        }
+            // Funkcja do formatowania czasu
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            }
 
-        .stats-card {
-            background-color: #1E1E1E;
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-        }
+            // Aktualizacja wszystkich wartości
+            document.getElementById('czas').textContent = formatTime(Math.round(originalValues.czas * changeFactor));
+            document.getElementById('tempo').textContent = formatTime(Math.round(originalValues.tempo * changeFactor));
+            document.getElementById('puls').textContent = Math.round(originalValues.puls * changeFactor);
+            document.getElementById('kalorie').textContent = Math.round(originalValues.kalorie * changeFactor);
+            document.getElementById('sr-tempo').textContent = Math.round(originalValues.srTempo * changeFactor);
+            document.getElementById('kroki').textContent = Math.round(originalValues.kroki * changeFactor);
 
-        .stats-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .stats-title {
-            font-size: 20px;
+            console.log(`Zmiana o ${(changeDirection * changePercent * 100).toFixed(2)}%`);
+        });
+    </script>
+</body>
+</html>
