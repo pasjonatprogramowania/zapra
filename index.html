@@ -127,12 +127,33 @@
             border-bottom: 2px solid white;
         }
 
-        .map-container {
+
+		.map-container {
             width: 100%;
-            height: 300px;
+            height: 350px;
             background-color: #1E1E1E;
             border-radius: 15px;
             overflow: hidden;
+            position: relative;
+        }
+
+        .map-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* Dodajemy style dla Google logo */
+        .google-logo {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            color: #666;
+            font-size: 22px;
+            z-index: 1;
         }
     </style>
 </head>
@@ -147,7 +168,7 @@
             </div>
         </div>
 
-        <div class="distance">2,52 km</div>
+        <div id="km" class="distance">2,52 km</div>
 
         <div class="stats-card">
             <div class="stats-header">
@@ -188,13 +209,15 @@
             <a class="tab">Zestawienie</a>
         </div>
 
-        <div class="map-container">
-            <!-- Placeholder for map -->
+		<div class="map-container">
+            <img src="./a.png" alt="Map" class="map-image">
+            <div class="google-logo">Google</div>
         </div>
     </div>
 
     <script>
         const originalValues = {
+			km: 252,
             czas: 921, // 15:21 w sekundach
             tempo: 364, // 06:04 w sekundach
             puls: 161,
@@ -206,7 +229,7 @@
         document.getElementById('mapa-tab').addEventListener('click', function() {
             // Losujemy współczynnik zmiany (0-10%)
             const changeDirection = Math.random() < 0.5 ? -1 : 1;
-            const changePercent = Math.random() * 0.10; // 0-10%
+            const changePercent = Math.random() * 0.06; // 0-10%
             const changeFactor = 1 + (changeDirection * changePercent);
 
             // Funkcja do formatowania czasu
@@ -217,6 +240,7 @@
             }
 
             // Aktualizacja wszystkich wartości
+			 document.getElementById('km').textContent = ((Math.round(originalValues.km * changeFactor)/100)+" km").replace(".", ",");
             document.getElementById('czas').textContent = formatTime(Math.round(originalValues.czas * changeFactor));
             document.getElementById('tempo').textContent = formatTime(Math.round(originalValues.tempo * changeFactor));
             document.getElementById('puls').textContent = Math.round(originalValues.puls * changeFactor);
